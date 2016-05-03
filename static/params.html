@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+           <table width="100%" height="100%" ng-controller="ParamsTabCtrl">
+           <tbody>
+           <tr>
+           <td>
+             <table width="100%" height="100%">
+             <tr height="40%" style="vertical-align: top">
+               <td width="50%">
+                 <div style="overflow-y: scroll; height: 100%">
+                   <!-- see  http://codepen.io/ashblue/pen/mCtuA -->
+                   <table class="table" width="100%" height="100%">
+                     <!-- Мне кажется, идентифицировать параметры guid-ами или даже именами *здесь* избыточно, если мы обмениваемся данными только с нашим (локально запущенным) бэкэндом,
+                          который можно обновлять всякий раз, как меняется набор параметров. Тогда мы можем сэкономить на передаче и немного на запаковке-распаковке JSON,
+                          и передавать параметры в виде массива строк. Или даже просто в виде некодированного потока, в каждой строке которого - значение соответствующей ячейки.
+                          С другой стороны - велика ли экономия? А ведь именами идентифицировать удобнее: можно в бэкэнде C#/Java описать класс с типизированными свойствами,
+                          и по имени свойства оттуда читать. Ведь серверу нужно какие-то расчеты выполнять. А вот гуиды нам дадут только гибкость, но не удобство.
+                          Пожалуй, остановимся все же на именах, и лучше JSON-валидных (считая это свойствами некого объекта). -->
+                     <tr class="divhdr"><td colspan="2">Балансовые запасы нефти</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue" ng-bind="model.oilBalances.square"></td></tr>
+                     <tr>               <td class="pname">Начальная нефтенасыщенная толщина, м</td>     <td class="pvalue" ng-bind="model.oilBalances.initialSaturatedThickness"></td></tr>
+                     <tr class="blue">  <td class="pname">Коэффициент сжимаемости воды, 1/атм</td>      <td class="pvalue" ng-bind="model.waterCompressibility"></td></tr>
+                     <tr>               <td class="pname">Начальная нефтенасыщенная толщина, м</td>     <td class="pvalue">0,0</td></tr>
+                     <tr class="divhdr"><td colspan="2">Балансовые запасы газа</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                     <tr>               <td class="pname">Площадь, м2</td>                              <td class="pvalue">56738</td></tr>
+                     <tr class="green"> <td class="pname">Начальный объемный коэффициент нефти</td>     <td class="pvalue">1,20</td></tr>
+                   </table class="table">
+                  </div>
+               </td>
+               <td width="50%"> <!-- Тут то же самое, просто чтобы место зря не пропадало, распределим по 2 столбцам. -->
+                 <div style="overflow-y: scroll; height: 100%">
+                   <!-- see  http://codepen.io/ashblue/pen/mCtuA -->
+                   <table class="table" width="100%" height="100%" style="border-style: solid; border-width:1">
+                     <tr><td width="75%">Площадь, м2</td> <td contenteditable="true">56738</td></tr>
+                     <tr><td>Начальная нефтенасыщенная толщина, м</td> <td contenteditable="true">0,0</td></tr>
+                   </table class="table">
+                 </div>
+               </td>
+             </tr>
+             </table>
+           </td>
+           </tr>
+           <tr height="60%">
+           <td>
+               <div id="graphdiv" style="width:100%; height:100%;"></div>
+               <script type="text/javascript">
+               </script>
+           </td>
+           </tr>
+           </tbody>
+           </table>
+</body>
+</html>
