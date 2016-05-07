@@ -1,0 +1,30 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<webserver.CalcParams>
+
+<head>
+  <meta charset="UTF-8">
+  <link type="text/css" rel="stylesheet" href="form.css"/>
+  <script type="text/javascript" src="angular-1.3.14.js"></script>
+  <script type="text/javascript" src="dygraph-combined-dev-1.1.1.js"></script>
+
+  <script type="text/javascript" src="TabsController.js"></script>
+  <script type="text/javascript" src="ParamsTabController.js"></script>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+
+<div ng-app="TabsApp">
+  <div id="tabs" ng-controller="TabsCtrl">
+
+    <li ng-repeat="tab in tabs" ng-class="{'active' : tab == currentTab}" ng-click="onClickTab(tab)">
+        {{tab.title}}</li></li>
+    <div id="mainView" style="height: 95%; display: block">
+         <!-- Обычно тут делают вставку только ОДНОЙ из страничек за раз, и всякий раз при смене таба она перезагружается.
+              Я боюсь, что в случае графиков это вызывет и рост накладных расходов, и утечки объектов Dygraph, поэтому
+              буду грузить сразу всё, а показывать только текущее. -->
+         <div ng-repeat="tab in tabs" ng-include="tab.url" ng-show="tab == currentTab" onload="tab.bindtab()"></div>
+    </div>
+
+  </div>
+</div>
+
+</body>

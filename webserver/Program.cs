@@ -7,9 +7,7 @@ using System.Windows.Forms;
 using Nancy.Hosting.Self;
 using Nancy;
 using Nancy.Conventions;
-using Nancy.ModelBinding;
-using System.IO;
-using Nancy.Responses;
+using Nancy.ViewEngines.Razor;
 
 namespace webserver
 {
@@ -20,7 +18,7 @@ namespace webserver
         {
             HostConfiguration cfg = new HostConfiguration();
             cfg.RewriteLocalhost = false;
-            using (var host = new NancyHost(new ApplicationBootstrapper(args.Length == 1 ? args[0] : AppDomain.CurrentDomain.BaseDirectory),
+            using (var host = new NancyHost(new ApplicationBootstrapper(/*args.Length == 1 ? args[0] : */AppDomain.CurrentDomain.BaseDirectory),
                 cfg, new Uri("http://localhost:8080")))
             {
                 host.Start();
@@ -41,39 +39,26 @@ namespace webserver
         public float waterCompressibility;
     }
 
-    public class Sucaba : NancyModule
+    public class RazorConfig : IRazorConfiguration
     {
-        public Sucaba(IRootPathProvider pathProvider)
+        public IEnumerable<string> GetAssemblyNames()
         {
-            Post["/chart"] = x =>
-            {
-                //Вытащим параметры расчета из запроса. Но использовать не будем, отдадим муляж.
-                CalcParams calcparams = this.Bind<CalcParams>();
+            yield return "HyRes.Models";
+            yield return "HyRes.Website";
+        }
 
-                var ss = new MemoryStream();
-                StreamWriter sw = new StreamWriter(ss);
-                sw.WriteLine("Date,V1,V2");
-                DateTime dt = DateTime.Today;
-                Random r = new Random();
-                for (int i = 0; i < 100; i++)
-                {
-                    sw.Write(string.Format("{0:yyyy}{0:MM}{0:dd}", dt.AddDays(i)));
-                    sw.Write(",");
-                    sw.Write(r.Next(30));
-                    sw.Write(",");
-                    sw.Write(r.Next(30));
-                    sw.WriteLine();
-                }
-                sw.Flush();
-                ss.Position = 0;
+        public IEnumerable<string> GetDefaultNamespaces()
+        {
+            yield return "HyRes.Models";
+            yield return "HyRes.Website.Infrastructure.Helpers";
+        }
 
-                var response = new StreamResponse(() => ss, MimeTypes.GetMimeType("text/csv"));
-                  
-                return response.AsAttachment("chart.csv");
-            };
+        public bool AutoIncludeModelNamespace
+        {
+            get { return true; }
         }
     }
-    
+
     public class ApplicationBootstrapper : DefaultNancyBootstrapper
     {
         private readonly IRootPathProvider rootPathProvider;
