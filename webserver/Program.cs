@@ -16,8 +16,7 @@ namespace webserver
         {
             HostConfiguration cfg = new HostConfiguration();
             cfg.RewriteLocalhost = false;
-            using (var host = new NancyHost(new ApplicationBootstrapper(AppDomain.CurrentDomain.BaseDirectory),
-                cfg, new Uri("http://localhost:8080")))
+            using (var host = new NancyHost(cfg, new Uri("http://localhost:8080")))
             {
                 host.Start();
                 Application.Run(new Form());
@@ -27,37 +26,10 @@ namespace webserver
 
     public class ApplicationBootstrapper : DefaultNancyBootstrapper
     {
-        private readonly IRootPathProvider rootPathProvider;
-
-        public ApplicationBootstrapper(string rootpath)
-        {
-            this.rootPathProvider = new SelfHostRootPathProvider(rootpath);
-        }
-
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("static", @"Static"));
             base.ConfigureConventions(nancyConventions);
-        }
-
-        protected override IRootPathProvider RootPathProvider
-        {
-            get { return rootPathProvider; }
-        }
-    }
-    
-    public class SelfHostRootPathProvider : IRootPathProvider
-    {
-        private readonly string path;
-
-        public SelfHostRootPathProvider(string path)
-        {
-            this.path = path;
-        }
-
-        public string GetRootPath()
-        {
-            return path;
         }
     }
 }
