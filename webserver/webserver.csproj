@@ -79,7 +79,7 @@
     <Content Include="static\adapt.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="static\angular-1.3.14.js">
+    <Content Include="static\angular-1.4.10.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="static\app.js">

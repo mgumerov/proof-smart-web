@@ -1,4 +1,4 @@
-ParamsTabController = ['$scope', '$http', function ($scope,  $http) {
+ParamsTabController = ['$scope', '$http', '$location', function ($scope,  $http, $location) {
     $scope.model = {}; //Параметры, вводимые юзером
     //Надо, к сожалению, создать заранее вложенные в model объекты, т.к. при binding их автоматически не создадут
     //А искать ссылающиеся html-элементы каким-то образом мне влом, поэтому просто напишу тут, какие именно вложенные надо создать
@@ -7,6 +7,13 @@ ParamsTabController = ['$scope', '$http', function ($scope,  $http) {
     $scope.model.oilBalances.square = 56738;
     $scope.model.oilBalances.initialSaturatedThickness = 0.0;
     $scope.model.waterCompressibility = 0.000084;
+
+    var initparams = angular.fromJson($location.search().params);
+	//надо в $scope.model перелить ВСЕ, что нам пришло в initparams
+	//чтобы не просто заменить вложенные под-группы значений, а пройти внутрь них и добавить их содержимое к тому, что есть уже в модели,
+	//используем merge, а не extend
+	angular.merge($scope.model, initparams);
+
 
     //See JS-fiddle for this: http://dygraphs.com/gallery/#g/highlighted-region to learn
     //how we can paint over the chart to, say, draw a custom vertical marker - in cases when built-in annotations are not enough
