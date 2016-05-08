@@ -38,7 +38,7 @@ namespace webserver
         public OilBalancesParams oilBalances;
         public float waterCompressibility;
     }
-
+    /*
     public class RazorConfig : IRazorConfiguration
     {
         public IEnumerable<string> GetAssemblyNames()
@@ -58,6 +58,7 @@ namespace webserver
             get { return true; }
         }
     }
+     * */
 
     public class ApplicationBootstrapper : DefaultNancyBootstrapper
     {
